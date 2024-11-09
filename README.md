@@ -10,7 +10,6 @@ Proj2
 │   └── makefile         # Build file for compiling the virus and host
 ├── authors.txt		 # Identification of authors
 ├── README.txt           # Project documentation (this file)
-└── Results              # Directory for screenshots showing infection and mutation results
 
 Prerequisites:
 C++ Compiler: The project requires a C++ 14 compatible compiler
