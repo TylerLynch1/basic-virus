@@ -1,6 +1,6 @@
 #include <iostream>
 
 int main() {
-    std::cout << "Computer Security, MTU!" << std::endl;
+    std::cout << "Infected" << std::endl;
     return 0;
 }
