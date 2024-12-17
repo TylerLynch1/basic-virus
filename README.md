@@ -18,7 +18,7 @@ Standard Libraries: iostream, fstream, cstdlib, ctime, cstring, unistd.h
 
 Setup Instructions:
 1) Clone the repository
-git clone https://github.com/TylerLynch1/basic-virus.git
+```git clone https://github.com/TylerLynch1/basic-virus.git```
 
 2) Compile the Virus and Host Binaries
 make
@@ -35,10 +35,12 @@ victim3
 
 Usage:
 1) Run the seed on a victim file to infect it
-./seed ./victim1
+
+```./seed ./victim1```
 
 2) Run the infected victim file on another victim binary
-./victim1 ./victim2
+
+```./victim1 ./victim2```
 
 3) Repeat
 
